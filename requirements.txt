@@ -1,0 +1,19 @@
+# Quantum + Classical ML
+qiskit==0.45.0
+qiskit-machine-learning==0.7.2
+qiskit-aer==0.13.3
+scikit-learn==1.4.2
+numpy==1.26.4
+pandas==2.2.2
+
+# Market data
+yfinance==0.2.40
+ta==0.11.0
+
+# Backend server
+fastapi==0.111.0
+uvicorn[standard]==0.29.0
+pydantic==2.7.1
+
+# Utilities
+python-dotenv==1.0.1
