@@ -1,0 +1,11 @@
+quantum-financial-forecaster/frontend
+quantum-financial-forecaster/.git
+.git
+.gitignore
+README.md
+*.pyc
+__pycache__
+.pytest_cache
+.env
+.env.local
+node_modules
