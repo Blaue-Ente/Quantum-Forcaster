@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Adaptive Quantum Financial Forecaster</title>
+    <link rel="stylesheet" href="/static/css/styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <header class="app-header">
+        <div class="brand">
+            <div class="logo">⚛</div>
+            <div>
+                <h1>Adaptive Quantum Forecaster</h1>
+                <p class="subtitle">Хибриден квантов алгоритъмичен генератор на прогнози</p>
+            </div>
+        </div>
+        <div class="status-pill" id="statusPill">
+            <span class="dot"></span><span id="statusText">offline</span>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Контролен панел -->
+        <section class="control-panel glass">
+            <div class="control-group">
+                <label for="category">Категория</label>
+                <select id="category">
+                    <option value="stocks">Акции</option>
+                    <option value="crypto">Криптовалути</option>
+                    <option value="forex">Форекс</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label for="symbol">Актив</label>
+                <select id="symbol"></select>
+            </div>
+            <div class="control-group">
+                <label for="horizon">Хоризонт (дни)</label>
+                <input type="number" id="horizon" value="7" min="1" max="30" />
+            </div>
+            <button id="forecastBtn" class="primary-btn">
+                <span class="btn-icon">⚡</span> Генерирай прогноза
+            </button>
+        </section>
+
+        <!-- Loading -->
+        <div id="loader" class="loader hidden">
+            <div class="spinner"></div>
+            <p>Изпълнение на квантова верига... това може да отнеме 30-90 секунди.</p>
+        </div>
+
+        <!-- Резултати -->
+        <div id="results" class="hidden">
+            <!-- Главна прогноза -->
+            <section class="forecast-summary glass">
+                <div class="summary-header">
+                    <div>
+                        <h2 id="resSymbol">—</h2>
+                        <p class="meta" id="resMeta">—</p>
+                    </div>
+                    <div class="direction-badge" id="directionBadge">
+                        <span id="directionText">—</span>
+                    </div>
+                </div>
+                <div class="summary-grid">
+                    <div class="metric">
+                        <span class="metric-label">Последна цена</span>
+                        <span class="metric-value" id="lastClose">—</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Прогнозна цена</span>
+                        <span class="metric-value" id="projectedClose">—</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Очаквана промяна</span>
+                        <span class="metric-value" id="projectedChange">—</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Вероятност ↑</span>
+                        <span class="metric-value" id="probUp">—</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Увереност</span>
+                        <span class="metric-value" id="confidence">—</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Пазарен режим</span>
+                        <span class="metric-value" id="regime">—</span>
+                    </div>
+                </div>
+            </section>
+
+            <div class="grid-2">
+                <!-- Графика -->
+                <section class="glass chart-card">
+                    <h3>Историческа цена и проекция</h3>
+                    <canvas id="priceChart"></canvas>
+                </section>
+
+                <!-- Квантови параметри -->
+                <section class="glass quantum-card">
+                    <h3>Квантова верига (VQC)</h3>
+                    <div class="quantum-viz">
+                        <div class="qubits" id="qubitRow"></div>
+                        <div class="circuit-info">
+                            <div class="info-row">
+                                <span>Кубита:</span><strong id="nQubits">—</strong>
+                            </div>
+                            <div class="info-row">
+                                <span>Feature map дълбочина:</span><strong id="fmDepth">—</strong>
+                            </div>
+                            <div class="info-row">
+                                <span>Ansatz дълбочина:</span><strong id="ansatzDepth">—</strong>
+                            </div>
+                            <div class="info-row">
+                                <span>Entanglement:</span><strong>circular</strong>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="circuit-desc">
+                        ZZFeatureMap → RealAmplitudes → измерване. Дълбочината се адаптира
+                        според волатилността на актива.
+                    </div>
+                </section>
+            </div>
+
+            <div class="grid-2">
+                <!-- Сравнение на модели -->
+                <section class="glass">
+                    <h3>Сравнение на модели</h3>
+                    <canvas id="modelChart"></canvas>
+                </section>
+
+                <!-- Ансамбъл тегла -->
+                <section class="glass">
+                    <h3>Адаптивни тегла на ансамбъла</h3>
+                    <canvas id="weightChart"></canvas>
+                    <div class="weights-text" id="weightsText"></div>
+                </section>
+            </div>
+
+            <!-- Точност -->
+            <section class="glass accuracy-section">
+                <h3>Точност на моделите (out-of-sample)</h3>
+                <div class="accuracy-grid">
+                    <div class="acc-card quantum-acc">
+                        <span class="acc-label">Квантов VQC</span>
+                        <span class="acc-value" id="qAccuracy">—</span>
+                    </div>
+                    <div class="acc-card classical-acc">
+                        <span class="acc-label">Класически ансамбъл</span>
+                        <span class="acc-value" id="cAccuracy">—</span>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div id="errorBox" class="error-box hidden"></div>
+    </main>
+
+    <footer>
+        <p>Adaptive Quantum Financial Forecaster · Qiskit + scikit-learn + yfinance</p>
+        <p class="disclaimer">
+            ⚠ Информационни цели само. Не е финансов съвет. Квантовите симулации са
+            приближения на реални квантови изчисления.
+        </p>
+    </footer>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
